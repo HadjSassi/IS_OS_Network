@@ -62,8 +62,7 @@ void insert(int data, struct Node *node, struct Node *head) {
 
 struct Node *getLastNode(struct Node *head) {
     struct Node *current = head;
-    while (current->next != NULL)
-        current = current->next;
+    for (current = head; current->next != NULL; current = current->next);
     return current;
 }
 
@@ -76,20 +75,18 @@ void fillOrderedLinkedList(struct Node *head) {
 
 void showList(struct Node *head, char* name) {
     printf("%s%s\n", BLOC_DIVIDER, name);
-    struct Node *current = head->next;
-    while (current != NULL) {
-        printf("<%p> -> %d\n", current,current->data);
-        current = current->next;
+    struct Node *current;
+    for (current = head->next; current != NULL; current = current->next) {
+        printf("<%p> -> %d\n", current, current->data);
     }
     printf("%s\n",BLOC_DIVIDER);
 }
 
 int getListSize(struct Node *head) {
     int size = 0;
-    struct Node *current = head->next;
-    while (current != NULL) {
-        size += 1;
-        current = current->next;
+    struct Node *current;
+    for (current = head->next; current != NULL; current = current->next) {
+        size++;
     }
     return size;
 }
@@ -154,20 +151,18 @@ struct Node* duplicateList(struct Node *head) {
     struct Node *newHead = (struct Node *) malloc(sizeof(struct Node));
     newHead->next = NULL;
     newHead->prev = NULL;
-    struct Node *current = head->next;
-    while (current != NULL) {
+    struct Node *current;
+    for (current = head->next; current != NULL; current = current->next) {
         struct Node *newNode = createNode(current->data);
         appendNodeInTheEnd(newHead, newNode);
-        current = current->next;
     }
     return newHead;
 }
 
 void applyFunctionToList(struct Node *head, int (*func)(int)) {
-    struct Node *current = head->next;
-    while (current != NULL) {
+    struct Node *current;
+    for (current = head->next; current != NULL; current = current->next) {
         current->data = func(current->data);
-        current = current->next;
     }
 }
 
