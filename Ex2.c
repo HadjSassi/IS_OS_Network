@@ -1,6 +1,6 @@
 #define OPEN_FLAG 0644
 #define SUCCESS_EXIT 0
-#define FAILURE_EXIT -1
+#define FAILURE_EXIT (-1)
 #define FAILURE_FLAG 0
 #define OFFSET  0
 #define FILE_NAME "test.txt"
