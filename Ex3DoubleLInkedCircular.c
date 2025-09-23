@@ -135,38 +135,41 @@ void appendNodeIntheStart(struct Node **head, struct Node *node) {
     appendNodeInTheEnd(head, node);
     *head = node;
 }
-/*
-void concatenateTwoLists(struct Node *head1, struct Node *head2) {
-    if (head1->next == NULL) {
-        head1->next = head2->next;
-        if (head2->next != NULL)
-            head2->next->prev = head1;
-    } else {
-        struct Node *lastNode = getLastNode(head1);
-        lastNode->next = head2->next;
-        if (head2->next != NULL)
-            head2->next->prev = lastNode;
+
+void concatenateTwoLists(struct Node **head1, struct Node **head2) {
+    if (!*head2) return;
+    if (!*head1) {
+        *head1 = *head2;
+        *head2 = NULL;
+        return;
     }
-    head2->next = NULL;
+    struct Node *lastNode1 = (*head1)->prev;
+    struct Node *lastNode2 = (*head2)->prev;
+    lastNode1->next = *head2;
+    (*head2)->prev = lastNode1;
+    lastNode2->next = *head1;
+    (*head1)->prev = lastNode2;
+    *head2 = NULL;
 }
 
-struct Node* duplicateList(struct Node *head) {
-    struct Node *newHead = (struct Node *) malloc(sizeof(struct Node));
-    newHead->next = NULL;
-    newHead->prev = NULL;
-    struct Node *current;
-    for (current = head->next; current != NULL; current = current->next) {
-        struct Node *newNode = createNode(current->data);
-        appendNodeInTheEnd(newHead, newNode);
-    }
+struct Node *duplicateList(struct Node *head) {
+    if (!head) return NULL;
+    struct Node *newHead = NULL;
+    struct Node *current = head;
+    do {
+        insert(&newHead, current->data);
+        current = current->next;
+    } while (current != head);
     return newHead;
 }
 
 void applyFunctionToList(struct Node *head, int (*func)(int)) {
-    struct Node *current;
-    for (current = head->next; current != NULL; current = current->next) {
+    if (!head) return;
+    struct Node *current = head;
+    do {
         current->data = func(current->data);
-    }
+        current = current->next;
+    } while (current != head);
 }
 
 struct Node* createSpecialList(struct Node *head, int(*func)(int)) {
@@ -174,7 +177,7 @@ struct Node* createSpecialList(struct Node *head, int(*func)(int)) {
     applyFunctionToList(newHead, func);
     return newHead;
 }
-
+/*
 void showInvertedList(struct Node *head, char* name) {
     printf("%s%s\n", BLOC_DIVIDER, name);
     struct Node *lastNode = getLastNode(head);
@@ -211,11 +214,11 @@ void main() {
     appendNodeIntheStart(&head1, newNode2);
     showList(head1, Q7);
 
-    // struct Node *head2 = createSpecialList(head1,square);
-    // showList(head2, Q9);
-    //
-    // concatenateTwoLists(head1, head2);
-    // showList(head1, Q8);
-    //
+    struct Node *head2 = createSpecialList(head1,square);
+    showList(head2, Q9);
+
+    concatenateTwoLists(&head1, &head2);
+    showList(head1, Q8);
+
     // showInvertedList(head1, Q10);
 }
