@@ -6,7 +6,7 @@ int global_init = 42;
 
 int global_zero = 0;
 
-char *str = "Chaîne de caractères";
+char *str = "Hello World";
 
 int main(void) {
 
@@ -15,7 +15,7 @@ int main(void) {
     printf("BSS  : %p\n", (void*)&global_zero);
     printf("Str  : %p\n", (void*)str);
 
-    printf("\nCarte mémoire du processus :\n");
+    printf("\n Hello memory  :\n");
     char cmd[64];
     snprintf(cmd, sizeof(cmd), "pmap -X %d", getpid());
     system(cmd);
