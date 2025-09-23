@@ -1,4 +1,19 @@
 #define N 5
+#define STARTING_VALUE 0
+#define INCREMENT 1
+
+#define BLOC_DIVIDER "----------------------------------------\n"
+#define LIST_SIZE_STRING "Size of the list: "
+#define Q1 "1. Créez une liste chaînée contenant les n premiers entiers dans l’ordre croissant. "
+#define Q2 "2. Créez une fonction qui renvoie la longueur d’une liste."
+#define Q3 "3. Créez une fonction qui affiche chaque élémet de votre liste sous la forme : <adresse du maillon> valeur du maillon."
+#define Q4 "4. Retirez le premier élément d’une liste."
+#define Q5 "5. Retirez le dernier élément d’une liste."
+#define Q6 "6. Ajoutez un élément à la fin d’une liste."
+#define Q7 "7. Ajoutez un élément au début d’une liste."
+#define Q8 "8. Écrivez une fonction qui concatène deux listes."
+#define Q9 "9. Écrivez une fonction qui retourne une nouvelle liste, après application d’une fonction à chaque élément (par exemple : élévation au carré)."
+#define Q10 "10. Transformez votre liste en une liste doublement chaînée: On a fait une fonctoin qui affiche l'inverse de la liste avec les pionteurs previous."
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,6 +39,13 @@ struct Node* createNode(int data) {
     return newNode;
 }
 
+struct Node* createHead() {
+    struct Node* head = (struct Node*) malloc(sizeof(struct Node));
+    head->next = NULL;
+    head->prev = NULL;
+    return head;
+}
+
 void insert(int data, struct Node *node, struct Node *head) {
     struct Node *newNode = createNode(data);
     if (head->next == NULL) {
@@ -46,19 +68,20 @@ struct Node *getLastNode(struct Node *head) {
 }
 
 void fillOrderedLinkedList(struct Node *head) {
-    for (int i = 0; i < N; i += 1) {
+    for (int i = STARTING_VALUE; i < N; i += INCREMENT) {
         struct Node *lastNode = getLastNode(head);
-        insert(i + 1, lastNode, head);
+        insert(i, lastNode, head);
     }
 }
 
-void showList(struct Node *head) {
+void showList(struct Node *head, char* name) {
+    printf("%s%s\n", BLOC_DIVIDER, name);
     struct Node *current = head->next;
     while (current != NULL) {
-        printf("<%p> valeur: %d\n", current,current->data);
+        printf("<%p> -> %d\n", current,current->data);
         current = current->next;
     }
-    printf("\n");
+    printf("%s\n",BLOC_DIVIDER);
 }
 
 int getListSize(struct Node *head) {
@@ -154,32 +177,46 @@ struct Node* createSpecialList(struct Node *head, int(*func)(int)) {
     return newHead;
 }
 
-void showInvertedList(struct Node *head) {
+void showInvertedList(struct Node *head, char* name) {
+    printf("%s%s\n", BLOC_DIVIDER, name);
     struct Node *lastNode = getLastNode(head);
     struct Node *current = lastNode;
     while (current != head) {
-        printf("<%p> valeur: %d\n", current,current->data);
+        printf("<%p> -> %d\n", current,current->data);
         current = current->prev;
     }
-    printf("\n");
+    printf("%s\n",BLOC_DIVIDER);
 }
 
 void main() {
-    struct Node *head1 = (struct Node *) malloc(sizeof(struct Node));
-    head1->next = NULL;
-    head1->prev = NULL;
+    struct Node *head1 = createHead();
+
     fillOrderedLinkedList(head1);
+    showList(head1, Q1);
+
+    printf("%s\n%s %d\n\n",Q2,LIST_SIZE_STRING, getListSize(head1));
+
+    showList(head1, Q3);
+
     popFirstNode(head1);
+    showList(head1, Q4);
+
     popLastNode(head1);
+    showList(head1, Q5);
+
     struct Node *newNode = createNode(99);
     appendNodeInTheEnd(head1, newNode);
+    showList(head1, Q6);
+
     struct Node *newNode2 = createNode(100);
     appendNodeIntheStart(head1, newNode2);
+    showList(head1, Q7);
+
     struct Node *head2 = createSpecialList(head1,square);
+    showList(head2, Q9);
+
     concatenateTwoLists(head1, head2);
-    printf("Size of the list: %d\n", getListSize(head1));
-    printf("\n\nShow concatenated two lists after applying square on the duplicated list:\n\n");
-    showList(head1);
-    printf("\n\nShow inverted list:\n\n");
-    showInvertedList(head1);
+    showList(head1, Q8);
+
+    showInvertedList(head1, Q10);
 }
