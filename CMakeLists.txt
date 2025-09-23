@@ -5,3 +5,4 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(TP1 main.c)
 add_executable(EX1 Ex1.c)
+add_executable(EX2 Ex2.c)
