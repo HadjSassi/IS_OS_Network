@@ -177,18 +177,16 @@ struct Node* createSpecialList(struct Node *head, int(*func)(int)) {
     applyFunctionToList(newHead, func);
     return newHead;
 }
-/*
-void showInvertedList(struct Node *head, char* name) {
+
+void showInvertedList(struct Node *head, char *name) {
     printf("%s%s\n", BLOC_DIVIDER, name);
-    struct Node *lastNode = getLastNode(head);
-    struct Node *current = lastNode;
-    while (current != head) {
-        printf("<%p> -> %d\n", current,current->data);
+    struct Node *current = head->prev;
+    do {
+        printf("<%p> -> %d\n", current, current->data);
         current = current->prev;
-    }
+    } while (current != head->prev);
     printf("%s\n",BLOC_DIVIDER);
 }
-*/
 
 void main() {
     struct Node *head1 = NULL;
@@ -220,5 +218,5 @@ void main() {
     concatenateTwoLists(&head1, &head2);
     showList(head1, Q8);
 
-    // showInvertedList(head1, Q10);
+    showInvertedList(head1, Q10);
 }
