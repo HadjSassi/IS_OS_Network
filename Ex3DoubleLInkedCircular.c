@@ -31,19 +31,11 @@ int square(int x) {
     return x * x;
 }
 
-struct Node* createNode(int data) {
+struct Node *createNode(int data) {
     struct Node *newNode = (struct Node *) malloc(sizeof(struct Node));
     newNode->data = data;
-    newNode->next = NULL;
-    newNode->prev = NULL;
+    newNode->next = newNode->prev = newNode;
     return newNode;
-}
-
-struct Node* createHead() {
-    struct Node* head = (struct Node*) malloc(sizeof(struct Node));
-    head->next = NULL;
-    head->prev = NULL;
-    return head;
 }
 
 void insert(int data, struct Node *node, struct Node *head) {
@@ -184,34 +176,34 @@ void showInvertedList(struct Node *head, char* name) {
 }
 
 void main() {
-    struct Node *head1 = createHead();
+    struct Node *head1 = NULL;
 
-    fillOrderedLinkedList(head1);
-    showList(head1, Q1);
-
-    printf("%s\n%s %d\n\n",Q2,LIST_SIZE_STRING, getListSize(head1));
-
-    showList(head1, Q3);
-
-    popFirstNode(head1);
-    showList(head1, Q4);
-
-    popLastNode(head1);
-    showList(head1, Q5);
-
+    // fillOrderedLinkedList(head1);
+    // showList(head1, Q1);
+    //
+    // printf("%s\n%s %d\n\n",Q2,LIST_SIZE_STRING, getListSize(head1));
+    //
+    // showList(head1, Q3);
+    //
+    // popFirstNode(head1);
+    // showList(head1, Q4);
+    //
+    // popLastNode(head1);
+    // showList(head1, Q5);
+    //
     struct Node *newNode = createNode(99);
-    appendNodeInTheEnd(head1, newNode);
-    showList(head1, Q6);
-
+    // appendNodeInTheEnd(head1, newNode);
+    // showList(head1, Q6);
+    //
     struct Node *newNode2 = createNode(100);
-    appendNodeIntheStart(head1, newNode2);
-    showList(head1, Q7);
-
-    struct Node *head2 = createSpecialList(head1,square);
-    showList(head2, Q9);
-
-    concatenateTwoLists(head1, head2);
-    showList(head1, Q8);
-
-    showInvertedList(head1, Q10);
+    // appendNodeIntheStart(head1, newNode2);
+    // showList(head1, Q7);
+    //
+    // struct Node *head2 = createSpecialList(head1,square);
+    // showList(head2, Q9);
+    //
+    // concatenateTwoLists(head1, head2);
+    // showList(head1, Q8);
+    //
+    // showInvertedList(head1, Q10);
 }
