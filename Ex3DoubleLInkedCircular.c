@@ -1,6 +1,8 @@
 /*
 * In this algorithm, we consider the head as a pointer on a regular node. Not just its next pointer.
  * So that's why we use **head in some functions to be able to modify it.
+ * Otherwise, all the rest is pretty much the same as in Ex3.c, except the logic of creating, adding and removing nodes.
+ * Also we found the use of Do while loops more relevant than for and while loops in this case.
  */
 
 #define N 5
@@ -115,14 +117,20 @@ int popLastNode(struct Node **head) {
     }
     return data;
 }
-/*
-void appendNodeInTheEnd(struct Node *head, struct Node *node) {
-    struct Node *lastNode = getLastNode(head);
-    lastNode->next = node;
-    node->prev = lastNode;
-    node->next = NULL;
-}
 
+void appendNodeInTheEnd(struct Node **head, struct Node *node) {
+    if (!*head) {
+        node->next = node->prev = node;
+        *head = node;
+    } else {
+        struct Node *lastNode = (*head)->prev;
+        lastNode->next = node;
+        node->prev = lastNode;
+        node->next = *head;
+        (*head)->prev = node;
+    }
+}
+/*
 void appendNodeIntheStart(struct Node *head, struct Node *node) {
     node->next = head->next;
     node->prev = head;
@@ -199,9 +207,9 @@ void main() {
     showList(head1, Q5);
 
     struct Node *newNode = createNode(99);
-    // appendNodeInTheEnd(head1, newNode);
-    // showList(head1, Q6);
-    //
+    appendNodeInTheEnd(&head1, newNode);
+    showList(head1, Q6);
+
     struct Node *newNode2 = createNode(100);
     // appendNodeIntheStart(head1, newNode2);
     // showList(head1, Q7);
