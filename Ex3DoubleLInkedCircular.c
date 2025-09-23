@@ -82,20 +82,24 @@ int getListSize(struct Node *head) {
     } while (current != head);
     return size;
 }
-/*
-int popFirstNode(struct Node *head) {
-    if (head->next == NULL) {
-        return *NULL_POINTER;
-    }
-    struct Node *firstNode = head->next;
+
+int popFirstNode(struct Node **head) {
+    if (!*head) return *NULL_POINTER;
+    struct Node *firstNode = *head;
     int data = firstNode->data;
-    head->next = firstNode->next;
-    if (firstNode->next != NULL)
-        firstNode->next->prev = head;
-    free(firstNode);
+    if (firstNode->next == firstNode) {
+        free(firstNode);
+        *head = NULL;
+    } else {
+        struct Node *last = firstNode->prev;
+        *head = firstNode->next;
+        last->next = *head;
+        (*head)->prev = last;
+        free(firstNode);
+    }
     return data;
 }
-
+/*
 int popLastNode(struct Node *head) {
     if (head->next == NULL) {
         return *NULL_POINTER;
@@ -186,9 +190,9 @@ void main() {
 
     showList(head1, Q3);
 
-    // popFirstNode(head1);
-    // showList(head1, Q4);
-    //
+    popFirstNode(&head1);
+    showList(head1, Q4);
+
     // popLastNode(head1);
     // showList(head1, Q5);
     //
