@@ -1,3 +1,8 @@
+/*
+* In this algorithm, we consider the head as a pointer on a regular node. Not just its next pointer.
+ * So that's why we use **head in some functions to be able to modify it.
+ */
+
 #define N 5
 #define STARTING_VALUE 0
 #define INCREMENT 1
@@ -38,42 +43,35 @@ struct Node *createNode(int data) {
     return newNode;
 }
 
-void insert(int data, struct Node *node, struct Node *head) {
+void insert(struct Node **head, int data) {
     struct Node *newNode = createNode(data);
-    if (head->next == NULL) {
-        head->next = newNode;
-        newNode->prev = head;
+    if (*head == NULL) {
+        *head = newNode;
     } else {
-        newNode->next = node->next;
-        newNode->prev = node;
-        if (node->next != NULL)
-            node->next->prev = newNode;
-        node->next = newNode;
+        struct Node *last = (*head)->prev;
+        last->next = newNode;
+        newNode->prev = last;
+        newNode->next = *head;
+        (*head)->prev = newNode;
     }
 }
 
-struct Node *getLastNode(struct Node *head) {
-    struct Node *current = head;
-    for (current = head; current->next != NULL; current = current->next);
-    return current;
-}
-
-void fillOrderedLinkedList(struct Node *head) {
+void fillOrderedLinkedList(struct Node **head) {
     for (int i = STARTING_VALUE; i < N; i += INCREMENT) {
-        struct Node *lastNode = getLastNode(head);
-        insert(i, lastNode, head);
+        insert(head, i);
     }
 }
 
 void showList(struct Node *head, char* name) {
     printf("%s%s\n", BLOC_DIVIDER, name);
-    struct Node *current;
-    for (current = head->next; current != NULL; current = current->next) {
+    struct Node *current = head;
+    do {
         printf("<%p> -> %d\n", current, current->data);
-    }
+        current = current->next;
+    } while (current != head);
     printf("%s\n",BLOC_DIVIDER);
 }
-
+/*
 int getListSize(struct Node *head) {
     int size = 0;
     struct Node *current;
@@ -174,17 +172,18 @@ void showInvertedList(struct Node *head, char* name) {
     }
     printf("%s\n",BLOC_DIVIDER);
 }
+*/
 
 void main() {
     struct Node *head1 = NULL;
 
-    // fillOrderedLinkedList(head1);
-    // showList(head1, Q1);
-    //
+    fillOrderedLinkedList(&head1);
+    showList(head1, Q1);
+
     // printf("%s\n%s %d\n\n",Q2,LIST_SIZE_STRING, getListSize(head1));
-    //
-    // showList(head1, Q3);
-    //
+
+    showList(head1, Q3);
+
     // popFirstNode(head1);
     // showList(head1, Q4);
     //
