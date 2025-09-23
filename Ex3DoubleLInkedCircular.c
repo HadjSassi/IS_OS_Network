@@ -71,16 +71,18 @@ void showList(struct Node *head, char* name) {
     } while (current != head);
     printf("%s\n",BLOC_DIVIDER);
 }
-/*
+
 int getListSize(struct Node *head) {
+    if (!head) return 0;
     int size = 0;
-    struct Node *current;
-    for (current = head->next; current != NULL; current = current->next) {
-        size++;
-    }
+    struct Node *current = head;
+    do {
+        size += 1;
+        current = current->next;
+    } while (current != head);
     return size;
 }
-
+/*
 int popFirstNode(struct Node *head) {
     if (head->next == NULL) {
         return *NULL_POINTER;
@@ -180,7 +182,7 @@ void main() {
     fillOrderedLinkedList(&head1);
     showList(head1, Q1);
 
-    // printf("%s\n%s %d\n\n",Q2,LIST_SIZE_STRING, getListSize(head1));
+    printf("%s\n%s %d\n\n",Q2,LIST_SIZE_STRING, getListSize(head1));
 
     showList(head1, Q3);
 
