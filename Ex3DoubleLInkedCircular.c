@@ -99,21 +99,23 @@ int popFirstNode(struct Node **head) {
     }
     return data;
 }
-/*
-int popLastNode(struct Node *head) {
-    if (head->next == NULL) {
-        return *NULL_POINTER;
-    }
-    struct Node *lastNode = getLastNode(head);
+
+int popLastNode(struct Node **head) {
+    if (!*head) return *NULL_POINTER;
+    struct Node *lastNode = (*head)->prev;
     int data = lastNode->data;
-    if (lastNode->prev != NULL)
-        lastNode->prev->next = NULL;
-    else
-        head->next = NULL;
-    free(lastNode);
+    if (lastNode == *head) {
+        free(lastNode);
+        *head = NULL;
+    } else {
+        struct Node *beforeLast = lastNode->prev;
+        beforeLast->next = *head;
+        (*head)->prev = beforeLast;
+        free(lastNode);
+    }
     return data;
 }
-
+/*
 void appendNodeInTheEnd(struct Node *head, struct Node *node) {
     struct Node *lastNode = getLastNode(head);
     lastNode->next = node;
@@ -193,9 +195,9 @@ void main() {
     popFirstNode(&head1);
     showList(head1, Q4);
 
-    // popLastNode(head1);
-    // showList(head1, Q5);
-    //
+    popLastNode(&head1);
+    showList(head1, Q5);
+
     struct Node *newNode = createNode(99);
     // appendNodeInTheEnd(head1, newNode);
     // showList(head1, Q6);
