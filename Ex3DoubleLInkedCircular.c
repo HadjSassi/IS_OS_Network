@@ -130,15 +130,12 @@ void appendNodeInTheEnd(struct Node **head, struct Node *node) {
         (*head)->prev = node;
     }
 }
-/*
-void appendNodeIntheStart(struct Node *head, struct Node *node) {
-    node->next = head->next;
-    node->prev = head;
-    if (head->next != NULL)
-        head->next->prev = node;
-    head->next = node;
-}
 
+void appendNodeIntheStart(struct Node **head, struct Node *node) {
+    appendNodeInTheEnd(head, node);
+    *head = node;
+}
+/*
 void concatenateTwoLists(struct Node *head1, struct Node *head2) {
     if (head1->next == NULL) {
         head1->next = head2->next;
@@ -211,9 +208,9 @@ void main() {
     showList(head1, Q6);
 
     struct Node *newNode2 = createNode(100);
-    // appendNodeIntheStart(head1, newNode2);
-    // showList(head1, Q7);
-    //
+    appendNodeIntheStart(&head1, newNode2);
+    showList(head1, Q7);
+
     // struct Node *head2 = createSpecialList(head1,square);
     // showList(head2, Q9);
     //
